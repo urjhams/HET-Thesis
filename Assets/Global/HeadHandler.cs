@@ -160,13 +160,13 @@ public class HeadHandler : MonoBehaviour
         // Debug.Log(info);
         // Debug.Log(string.Format("Pitch: {0}", Pitch));
 
-        EyeOnlyHardRunner runnerInstance = GameObject
+        HardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
+            .GetComponent<HardRunner>();
 
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+        EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
+            GetComponent<EasyRunner>();
 
         Familiarization runnerTrialInstance = GameObject
             .Find("GameRunner").

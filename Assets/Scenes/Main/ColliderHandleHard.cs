@@ -17,16 +17,14 @@ public class ColliderHandleHard : MonoBehaviour
             case TrialLevel.Familization:
                 familizationEyeRegister();
                 break;
-            default:
-                return;
         }
     }
 
     private void easyEyeRegister()
     {
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+        EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
+            GetComponent<EasyRunner>();
         
         if (runnerEasyInstance != null && 
             !runnerEasyInstance.trialDone && 
@@ -38,9 +36,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void hardEyeRegister()
     {
-        EyeOnlyHardRunner runnerInstance = GameObject
+        HardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
+            .GetComponent<HardRunner>();
         
         if (runnerInstance != null && 
             !runnerInstance.trialDone && 
@@ -107,9 +105,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void hardEyeDeRegister()
     {
-        EyeOnlyHardRunner runnerInstance = GameObject
+        HardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
+            .GetComponent<HardRunner>();
         
         if (runnerInstance != null && 
             !runnerInstance.trialDone && 
@@ -124,9 +122,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void easyEyeDeRegister()
     {
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+        EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
+            GetComponent<EasyRunner>();
         
         if (runnerEasyInstance != null && 
             !runnerEasyInstance.trialDone && 
@@ -189,9 +187,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void easyHeadRegister()
     {
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+        EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
+            GetComponent<EasyRunner>();
 
         if (runnerEasyInstance != null)
         {
@@ -214,9 +212,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void hardHeadRegister()
     {
-        EyeOnlyHardRunner runnerInstance = GameObject
+        HardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
+            .GetComponent<HardRunner>();
 
         if (runnerInstance != null)
         {
@@ -283,9 +281,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void easyHeadDeRegister()
     {
-        EyeOnlyEasyRunner runnerEasyInstance = GameObject
+        EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
-            GetComponent<EyeOnlyEasyRunner>();
+            GetComponent<EasyRunner>();
         
         if (runnerEasyInstance != null)
         {
@@ -312,9 +310,9 @@ public class ColliderHandleHard : MonoBehaviour
 
     private void hardHeadDeRegister()
     {
-        EyeOnlyHardRunner runnerInstance = GameObject
+        HardRunner runnerInstance = GameObject
             .Find("GameRunner")
-            .GetComponent<EyeOnlyHardRunner>();
+            .GetComponent<HardRunner>();
 
         if (runnerInstance != null)
         {

@@ -29,7 +29,7 @@ public enum Result
     Correct, Incorrect, Overtime
 }
 
-public class EyeOnlyBaseRunner : MonoBehaviour
+public class BaseRunner : MonoBehaviour
 {
     public Text debugText;
 

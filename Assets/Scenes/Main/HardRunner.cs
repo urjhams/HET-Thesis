@@ -1,16 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EyeOnlyEasyRunner : EyeOnlyBaseRunner
+public class HardRunner : BaseRunner
 {
     public override void fillObjectsToPattern()
     {
         base.fillObjectsToPattern();
-        fillGameObjectsToPattern(4, 2);
+        fillGameObjectsToPattern(8, 4);
     }
 
     public override void fillObjectsSprite()
     {
         base.fillObjectsSprite();
-        fillObjectsWithSprites(4, 2);
+        fillObjectsWithSprites(8, 4);
     }
 }
