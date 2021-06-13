@@ -53,7 +53,6 @@ public class Runner : MonoBehaviour
                 Global.currentLevel = TrialLevel.Familization;
                 break;
             default:
-                Global.currentLevel = TrialLevel.Calibration;
                 break;
         }
     }
@@ -70,12 +69,6 @@ public class Runner : MonoBehaviour
                 break;
             case TrialLevel.Familization:
                 SceneManager.LoadScene("Familiarization");
-                break;
-            case TrialLevel.Calibration:
-                GameObject
-                    .Find("Calibration")
-                    .GetComponent<CalibrationRunner>()
-                    .startCalibration();
                 break;
             default:
                 return;
