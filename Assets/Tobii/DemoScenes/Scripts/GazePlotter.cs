@@ -33,7 +33,7 @@ public class GazePlotter : MonoBehaviour
 
 	// Members used for gaze bubble (filtered gaze visualization):
 	private SpriteRenderer _gazeBubbleRenderer;      // the gaze bubble sprite is attached to the GazePlotter game object itself
-	private bool _useFilter = false;
+	private bool _useFilter = true;
 	private bool _hasHistoricPoint;
 	private Vector3 _historicPoint;
 
