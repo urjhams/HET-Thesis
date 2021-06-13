@@ -754,13 +754,13 @@ public class BaseRunner : MonoBehaviour
             try
             {
                 subFrame[index]
-                    .GetComponent<ColliderHandleHard>()
+                    .GetComponent<SelectedHandler>()
                     .representPatternSet = subObjsGroup.patterns[index];
             }
             catch
             {
                 Debug.Log(
-                    "Cannot apply for `ColliderHandleHard` of subframe object at index "
+                    "Cannot apply for `SelectedHandler` of subframe object at index "
                         + index
                 );
             }

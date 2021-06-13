@@ -1,15 +1,15 @@
 using UnityEngine;
 using Tobii.Gaming;
 
+[RequireComponent(typeof(GazeAware))]
 public class SelectedHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Global.GameObjectPattern representPatternSet;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
