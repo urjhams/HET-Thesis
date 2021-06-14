@@ -228,12 +228,22 @@ public class ColliderHandle : MonoBehaviour
     //     }
     // }
 
-    private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.name.Equals("headCursor")) 
-        {
-            Debug.Log("Hit!!!");
-            registerHeadSelectedObject();
-        }
+    // private void OnCollisionEnter(Collision other) {
+    //     if (other.gameObject.name.Equals("headCursor")) 
+    //     {
+    //         Debug.Log("Hit!!!");
+    //         registerHeadSelectedObject();
+    //     }
+    // }
+
+    /// <summary>
+    /// OnCollisionEnter is called when this collider/rigidbody has begun
+    /// touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Hit!!!!!!!!");
     }
 
     // private void OnTriggerExit(Collider other) {
