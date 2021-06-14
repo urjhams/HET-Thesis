@@ -40,6 +40,8 @@ public class HeadPlloter : MonoBehaviour
             if (expectedX > width) expectedX = width;
 
             var expectedY = (pitch + 45) * pitchAnglePixel;
+            // need to get the oposite y cuz pitch > 0 mean look down
+            expectedY = height - expectedY;
             if (expectedY < 0) expectedY = 0F;
             if (expectedY > height) expectedY = height;
 
@@ -47,7 +49,6 @@ public class HeadPlloter : MonoBehaviour
             var position = new Vector3(expectedX, expectedY, cam.nearClipPlane);
             var screenPosition = cam.ScreenToWorldPoint(position);
 
-            Debug.Log("pitch: " + pitch.ToString() + ", on screen: " + position.ToString());
             // move the cursor
             transform.position = screenPosition;
         }
