@@ -220,7 +220,15 @@ public class ColliderHandle : MonoBehaviour
     }
 
     // --- collider delegation
-    private void OnTriggerStay(Collider other) {
+    // private void OnTriggerStay(Collider other) {
+    //     if (other.gameObject.name.Equals("headCursor")) 
+    //     {
+    //         Debug.Log("Hit!!!");
+    //         registerHeadSelectedObject();
+    //     }
+    // }
+
+    private void OnCollisionEnter(Collision other) {
         if (other.gameObject.name.Equals("headCursor")) 
         {
             Debug.Log("Hit!!!");
@@ -228,9 +236,14 @@ public class ColliderHandle : MonoBehaviour
         }
     }
 
-    
+    // private void OnTriggerExit(Collider other) {
+    //     if (other.gameObject.name.Equals("headCursor")) 
+    //     {
+    //         deRegisterHeadSelectedObject();
+    //     }
+    // }
 
-    private void OnTriggerExit(Collider other) {
+    private void OnCollisionExit(Collision other) {
         if (other.gameObject.name.Equals("headCursor")) 
         {
             deRegisterHeadSelectedObject();
