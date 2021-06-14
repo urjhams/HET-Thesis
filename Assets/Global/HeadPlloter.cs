@@ -40,22 +40,16 @@ public class HeadPlloter : MonoBehaviour
             if (expectedX > width) expectedX = width;
 
             var expectedY = (pitch + 45) * pitchAnglePixel;
-            if (pitch > 0)      // looking down
-            {
-                expectedY = height / 2 + pitch * pitchAnglePixel;
-            } 
-            else                // looking up
-            {
-                expectedY = height / 2 - pitch * pitchAnglePixel;
-            }
             if (expectedY < 0) expectedY = 0F;
             if (expectedY > height) expectedY = height;
 
             // concert to world space position from screen coordinate
             var position = new Vector3(expectedX, expectedY, cam.nearClipPlane);
+            var screenPosition = cam.ScreenToWorldPoint(position);
 
+            Debug.Log("pitch: " + pitch.ToString() + ", on screen: " + position.ToString());
             // move the cursor
-            transform.position = position;
+            transform.position = screenPosition;
         }
     }
 }
