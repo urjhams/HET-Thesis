@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1738812848720732903}
   - component: {fileID: 1738812848720732900}
   - component: {fileID: 1738812848720732901}
-  - component: {fileID: 1738812848720732906}
+  - component: {fileID: 350101235566987455}
   m_Layer: 0
   m_Name: headCursor
   m_TagString: Untagged
@@ -45,9 +45,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -120,7 +123,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1738812848720732906
+--- !u!114 &350101235566987455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,26 +132,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1738812848720732907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a40f43a3d83455ab61e6396982b057, type: 3}
+  m_Script: {fileID: 11500000, guid: fb0717a3c6ecf43b3926c6ee895f8777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Yaw: 0
-  Pitch: 0
-  Roll: 0
-  X: 0
-  Y: 0
-  Z: 0
-  RawYaw: 0
-  RawPitch: 0
-  RawRoll: 0
-  RawX: 0
-  RawY: 0
-  RawZ: 0
-  x1: 0
-  y1: 0
-  x2: 0
-  y2: 0
-  x3: 0
-  y3: 0
-  x4: 0
-  y4: 0
