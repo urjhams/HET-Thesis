@@ -264,14 +264,14 @@ public class BaseRunner : MonoBehaviour
         {
             return;
         }
-
         if (trialDone)
         {
             return;
         }
 
         if (headSelectedPatternSet != null
-            && headSelectedPatternSet.objects.Length > 0)
+            && headSelectedPatternSet.objects.Length > 0 
+            && lockTime > 0)
         {
             headSelectedPatternSet
             .objects[0]
@@ -751,6 +751,10 @@ public class BaseRunner : MonoBehaviour
             {
                 subFrame[index]
                     .GetComponent<SelectedHandler>()
+                    .representPatternSet = subObjsGroup.patterns[index];
+                
+                subFrame[index]
+                    .GetComponent<ColliderHandle>()
                     .representPatternSet = subObjsGroup.patterns[index];
             }
             catch

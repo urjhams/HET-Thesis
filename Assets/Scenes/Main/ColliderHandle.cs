@@ -47,10 +47,14 @@ public class ColliderHandle : MonoBehaviour
             switch (Global.currentState)
             {
                 case TrialState.Head:
-                    runnerEasyInstance.headSelectedPatternSet = representPatternSet;
+                    if (!runnerEasyInstance.trialDone)
+                    {
+                        runnerEasyInstance.headSelectedPatternSet = representPatternSet;
+                    }
                     break;
                 case TrialState.Order:
-                    if (runnerEasyInstance.selectedPatternSet == representPatternSet)
+                    if (runnerEasyInstance.selectedPatternSet == representPatternSet 
+                    && !runnerEasyInstance.trialDone)
                     {
                         runnerEasyInstance.headSelectedPatternSet = representPatternSet;
                     }
