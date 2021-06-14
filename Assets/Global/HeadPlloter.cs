@@ -40,6 +40,14 @@ public class HeadPlloter : MonoBehaviour
             if (expectedX > width) expectedX = width;
 
             var expectedY = (pitch + 45) * pitchAnglePixel;
+            if (pitch > 0)      // looking down
+            {
+                expectedY = height / 2 + pitch * pitchAnglePixel;
+            } 
+            else                // looking up
+            {
+                expectedY = height / 2 - pitch * pitchAnglePixel;
+            }
             if (expectedY < 0) expectedY = 0F;
             if (expectedY > height) expectedY = height;
 
