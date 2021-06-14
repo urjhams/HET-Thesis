@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum TrialState
 {
@@ -88,11 +87,6 @@ class Utility
 }
 
 public class Helper {
-    public static void changeScene(string scene)
-    {
-        SceneManager.LoadScene(scene);
-    }
-
     public static void prepareCursors()
     {
         switch (Global.currentState)
@@ -101,7 +95,7 @@ public class Helper {
                 GameObject.Find("headCursor").SetActive(false);
                 break;
             case TrialState.Head:
-                GameObject.Find("eyeCursor").SetActive(false);
+                GameObject.Find("GazePlot").SetActive(false);
                 break;
             case TrialState.HeadEye:
                 // hide the render of head cursor
