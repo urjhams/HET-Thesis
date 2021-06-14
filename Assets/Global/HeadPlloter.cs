@@ -48,7 +48,7 @@ public class HeadPlloter : MonoBehaviour
             // concert to world space position from screen coordinate
             var position = new Vector3(expectedX, expectedY, cam.nearClipPlane);
             var screenPosition = cam.ScreenToWorldPoint(position);
-
+            //Debug.Log(screenPosition.z);
             // move the cursor
             transform.position = screenPosition;
         }

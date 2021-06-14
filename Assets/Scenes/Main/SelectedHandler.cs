@@ -10,6 +10,10 @@ public class SelectedHandler : MonoBehaviour
 
     void Start()
     {
+        Camera cam = Camera.main;
+        var currentPosition = cam.WorldToScreenPoint(transform.position);
+        var newPosition = new Vector3(currentPosition.x, currentPosition.y,cam.nearClipPlane);
+        transform.position = cam.ScreenToWorldPoint(newPosition);
         _gazeAwareComponent = GetComponent<GazeAware>();
     }
 
