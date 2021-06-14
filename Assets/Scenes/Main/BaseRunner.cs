@@ -115,12 +115,6 @@ public class BaseRunner : MonoBehaviour
 
     private double readyTime = 2.5;
 
-    public void Awake()
-    {
-        QualitySettings.vSyncCount = 0;     // disable vSync
-        Application.targetFrameRate = 60;
-    }
-
     void Start()
     {
         // no idea why delay time is turned to 2.5 at initializing step 
@@ -140,7 +134,6 @@ public class BaseRunner : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log(((int)(1.0f / Time.smoothDeltaTime)).ToString());
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Menu & Calibration");
@@ -578,14 +571,17 @@ public class BaseRunner : MonoBehaviour
             headSelectedPatternSet = null;
 
             // reset HeadHandler state in HeadEye mode
-            var head = GameObject
+            if (Global.currentState == TrialState.HeadEye)
+            {
+                var head = GameObject
                 .Find("headCursor")
                 .GetComponent<HeadHandler>();
 
-            if (head != null)
-            {
-                head.didNod = false;
-                head.isObserving = false;   // stop the Observe if needed
+                if (head != null)
+                {
+                    head.didNod = false;
+                    head.isObserving = false;   // stop the Observe if needed
+                }
             }
         }
     }

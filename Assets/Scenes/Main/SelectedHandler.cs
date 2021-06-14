@@ -10,6 +10,7 @@ public class SelectedHandler : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(representPatternSet != null);
         _gazeAwareComponent = GetComponent<GazeAware>();
     }
 
@@ -47,21 +48,19 @@ public class SelectedHandler : MonoBehaviour
                     return;
             }
 
-            // TODO: handle observing part bellow with new aproach
-            HeadHandler trackerInstance = GameObject
-                .Find("headCursor")
-                .GetComponent<HeadHandler>();
-
-            if (Global.currentState == TrialState.HeadEye &&
-                trackerInstance.isObserving)
-            {
-                trackerInstance.isObserving = false;
-            }
-
             // observing handle in HeadEye case
             if (Global.currentState == TrialState.HeadEye)
             {
+                 HeadHandler trackerInstance = GameObject
+                    .Find("headCursor")
+                    .GetComponent<HeadHandler>();
+
+                if (trackerInstance.isObserving)
+                {
+                    trackerInstance.isObserving = false;
+                }
                 GameObject
+
                     .Find("headCursor")
                     .GetComponent<HeadHandler>()
                     .isObserving = false;
@@ -125,6 +124,7 @@ public class SelectedHandler : MonoBehaviour
 
         if (runnerInstance != null &&
             !runnerInstance.trialDone &&
+            runnerInstance.selectedPatternSet == representPatternSet &&
             Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite
@@ -142,6 +142,7 @@ public class SelectedHandler : MonoBehaviour
 
         if (runnerEasyInstance != null &&
             !runnerEasyInstance.trialDone &&
+            runnerEasyInstance.selectedPatternSet == representPatternSet &&
             Global.currentState != TrialState.Head)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite
