@@ -51,7 +51,7 @@ public class SelectedHandler : MonoBehaviour
             // observing handle in HeadEye case
             if (Global.currentState == TrialState.HeadEye)
             {
-                 HeadHandler trackerInstance = GameObject
+                HeadHandler trackerInstance = GameObject
                     .Find("headCursor")
                     .GetComponent<HeadHandler>();
 
@@ -60,7 +60,6 @@ public class SelectedHandler : MonoBehaviour
                     trackerInstance.isObserving = false;
                 }
                 GameObject
-
                     .Find("headCursor")
                     .GetComponent<HeadHandler>()
                     .isObserving = false;
