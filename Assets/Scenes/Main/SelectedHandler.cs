@@ -10,7 +10,6 @@ public class SelectedHandler : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(representPatternSet != null);
         _gazeAwareComponent = GetComponent<GazeAware>();
     }
 

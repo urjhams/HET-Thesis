@@ -220,13 +220,15 @@ public class ColliderHandle : MonoBehaviour
     }
 
     // --- collider delegation
-
     private void OnTriggerStay(Collider other) {
         if (other.gameObject.name.Equals("headCursor")) 
         {
+            Debug.Log("Hit!!!");
             registerHeadSelectedObject();
         }
     }
+
+    
 
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.name.Equals("headCursor")) 
