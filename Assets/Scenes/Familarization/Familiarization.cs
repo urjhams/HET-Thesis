@@ -9,17 +9,10 @@ public class Familiarization : MonoBehaviour
     {
         Up, Down, Left, Right
     }
-
-    enum RecordState
-    {
-        Off, On
-    }
     
     public GameObject background;
 
     public GameObject sampleObject;
-
-    public Sprite backgroundNormal;
     
     public Sprite backgroundRecording;
 
@@ -28,17 +21,6 @@ public class Familiarization : MonoBehaviour
 
     [HideInInspector]
     public bool didHeadSelect = false;
-
-    private RecordState currentRecordState = RecordState.Off;
-
-    [HideInInspector]
-    public float currentPitchValue = 0F;
-
-    private List<HeadState> tempPetchValues = new List<HeadState>();
-
-    private float currentStablePitch = 0F;
-
-    private float estimatePitchDifference = 3;
 
     private double _confirmTime = 0.7;
 

@@ -35,6 +35,7 @@ public class RecordRunner : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(currentPitchValue);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Menu & Calibration");
@@ -44,13 +45,19 @@ public class RecordRunner : MonoBehaviour
 
     private void nodRecognition()
     {
-        if (Input.GetKey(KeyCode.C))
+        if (Input.GetKey(KeyCode.Space))
         {
+            if (Application.isEditor)
+            {
+                return;
+            }
             if (currentRecordState == RecordState.Off)
             {
                 currentRecordState = RecordState.On;
                 currentStablePitch = currentPitchValue;
-                background.GetComponent<SpriteRenderer>().sprite = backgroundRecording;
+                background
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = backgroundRecording;
             }
 
             if (currentRecordState == RecordState.On)
@@ -70,34 +77,30 @@ public class RecordRunner : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.C)) 
+        if (Input.GetKeyUp(KeyCode.Space)) 
         {
+            if (Application.isEditor)
+            {
+                return;
+            }
             // turn to Off
             if (currentRecordState == RecordState.On)
             {
                 currentRecordState = RecordState.Off;
-                background.GetComponent<SpriteRenderer>().sprite = backgroundNormal;
+                background
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = backgroundNormal;
                 // save data
                 string textToSave = "";
                 foreach (HeadState value in tempPetchValues)
                 {
-                    var result = "";
-                    switch (value)
-                    {
-                        case HeadState.Up:
-                            result = "Up";
-                            break;
-                        case HeadState.Down:
-                            result = "Down";
-                            break;
-                        case HeadState.Stable:
-                            result = "Stable";
-                            break;
-                    }
-                    textToSave = textToSave + "  " + result;
+                    var result = "HeadState." + value.ToString();
+                    textToSave = textToSave + " " + result + ",";
                 }
                 string moment = DateTime.Now.ToFileTime().ToString();
-                string fileName = "data_" + moment + ".txt";
+                var frames = tempPetchValues.Count.ToString();
+                string fileName = 
+                    "data-" + moment + "-" + frames + "_frames" + ".txt";
                 string directoryPath = Application.dataPath + "/" + "Saved test data";
                 string path = directoryPath  + "/" + fileName;
 

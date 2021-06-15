@@ -46,7 +46,7 @@ public class HeadPlloter : MonoBehaviour
             if (pitch > 180) pitch -= 360;
             var yaw = headPose.Rotation.eulerAngles.y;
             if (yaw > 180) yaw -= 360;
-            
+            Debug.Log(pitch);
             // --------------------------- adjust head plotter
             // get screen resolution
             var resolution = Screen.currentResolution;
@@ -83,13 +83,13 @@ public class HeadPlloter : MonoBehaviour
             transform.position = screenPosition;
 
             // -------------------------- nod observe
-            Familiarization runnerTrialInstance = GameObject
+            RecordRunner runnerTrialInstance = GameObject
                 .Find("GameRunner").
-                GetComponent<Familiarization>();
+                GetComponent<RecordRunner>();
 
             if (runnerTrialInstance != null)
             {
-                runnerTrialInstance.currentPitchValue = pitch * 100;
+                runnerTrialInstance.currentPitchValue = pitch;
             }
 
             if (Global.currentState == TrialState.HeadEye && !didNod)
