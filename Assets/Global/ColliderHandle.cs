@@ -145,15 +145,16 @@ public class ColliderHandle : MonoBehaviour
             switch(Global.currentState)
             {
                 case TrialState.Head:
-                    if (!runnerEasyInstance.trialDone && 
-                    runnerEasyInstance.headSelectedPatternSet == representPatternSet)
+                    if (!runnerEasyInstance.trialDone)
                     {
                         this
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = runnerEasyInstance.white;
-                        
-                        runnerEasyInstance.headSelectedPatternSet = null;
+                        if (runnerEasyInstance.headSelectedPatternSet == representPatternSet)
+                        {
+                            runnerEasyInstance.headSelectedPatternSet = null;
+                        }
                     }
                     break;
                 case TrialState.Order:
@@ -179,14 +180,16 @@ public class ColliderHandle : MonoBehaviour
             switch(Global.currentState)
             {
                 case TrialState.Head:
-                    if (!runnerInstance.trialDone && 
-                    runnerInstance.headSelectedPatternSet == representPatternSet)
+                    if (!runnerInstance.trialDone)
                     {
                         this
                             .gameObject
                             .GetComponent<SpriteRenderer>()
                             .sprite = runnerInstance.white;
-                        runnerInstance.headSelectedPatternSet = null;
+                        if (runnerInstance.headSelectedPatternSet == representPatternSet)
+                        {
+                            runnerInstance.headSelectedPatternSet = null;
+                        }
                     }
                     break;
                 case TrialState.Order:
