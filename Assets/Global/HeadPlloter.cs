@@ -54,7 +54,9 @@ public class HeadPlloter : MonoBehaviour
             if (expectedY > height) expectedY = height;
 
             // concert to world space position from screen coordinate
-            var position = new Vector3(expectedX, expectedY, cam.nearClipPlane);
+            // current pattern objects's z is 10,
+            // so put this z to 10 to make sure they gonna collise
+            var position = new Vector3(expectedX, expectedY, 10);
             var screenPosition = cam.ScreenToWorldPoint(position);
             //Debug.Log(screenPosition.z);
             // move the cursor
