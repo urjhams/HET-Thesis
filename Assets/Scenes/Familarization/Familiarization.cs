@@ -117,9 +117,9 @@ public class Familiarization : MonoBehaviour
 
     private void nodRecognition()
     {
-        HeadHandler handler = GameObject
+        HeadPlloter handler = GameObject
             .Find("headCursor")
-            .GetComponent<HeadHandler>();
+            .GetComponent<HeadPlloter>();
         
         if (Input.GetKey(KeyCode.C))
         {
@@ -210,9 +210,9 @@ public class Familiarization : MonoBehaviour
 
     private void tryHeadSupportEye()
     {
-        HeadHandler trackerInstance = GameObject
+        HeadPlloter trackerInstance = GameObject
             .Find("headCursor")
-            .GetComponent<HeadHandler>();
+            .GetComponent<HeadPlloter>();
         
         if (this.didEyeSelect)
         {

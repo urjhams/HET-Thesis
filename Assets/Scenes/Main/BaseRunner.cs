@@ -339,9 +339,9 @@ public class BaseRunner : MonoBehaviour
     */
     private void updateHeadSupportEye()
     {
-        HeadHandler trackerInstance = GameObject
+        HeadPlloter trackerInstance = GameObject
             .Find("headCursor")
-            .GetComponent<HeadHandler>();
+            .GetComponent<HeadPlloter>();
 
         if (trialDone)
         {
@@ -576,8 +576,8 @@ public class BaseRunner : MonoBehaviour
             if (Global.currentState == TrialState.HeadEye)
             {
                 var head = GameObject
-                .Find("headCursor")
-                .GetComponent<HeadHandler>();
+                    .Find("headCursor")
+                    .GetComponent<HeadPlloter>();
 
                 if (head != null)
                 {
