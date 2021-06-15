@@ -117,8 +117,6 @@ public class BaseRunner : MonoBehaviour
 
     void Start()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
         // no idea why delay time is turned to 2.5 at initializing step 
         // so need to set it in Start()
         delayTime = 4;

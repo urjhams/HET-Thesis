@@ -120,14 +120,19 @@ public class SelectedHandler : MonoBehaviour
             .Find("GameRunner")
             .GetComponent<HardRunner>();
 
+        if (!runnerInstance.trialDone)
+        {
+            this
+                .gameObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = runnerInstance.white;
+        }
+
         if (runnerInstance != null &&
             !runnerInstance.trialDone &&
             runnerInstance.selectedPatternSet == representPatternSet &&
             Global.currentState != TrialState.Head)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite
-                = runnerInstance.white;
-
             runnerInstance.selectedPatternSet = null;
         }
     }
@@ -137,15 +142,18 @@ public class SelectedHandler : MonoBehaviour
         EasyRunner runnerEasyInstance = GameObject
             .Find("GameRunner").
             GetComponent<EasyRunner>();
-
+        if (!runnerEasyInstance.trialDone)
+        {
+            this
+                .gameObject
+                .GetComponent<SpriteRenderer>()
+                .sprite = runnerEasyInstance.white;
+        }
         if (runnerEasyInstance != null &&
             !runnerEasyInstance.trialDone &&
             runnerEasyInstance.selectedPatternSet == representPatternSet &&
             Global.currentState != TrialState.Head)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite
-                = runnerEasyInstance.white;
-
             runnerEasyInstance.selectedPatternSet = null;
         }
     }
