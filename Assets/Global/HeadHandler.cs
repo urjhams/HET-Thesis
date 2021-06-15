@@ -4,11 +4,6 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-public enum HeadState
-{
-    Up, Stable, Down
-}
-
 public class HeadHandler : MonoBehaviour
 {
     [StructLayout(LayoutKind.Sequential)]

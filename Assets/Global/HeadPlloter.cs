@@ -1,8 +1,16 @@
 using Tobii.Gaming;
 using UnityEngine;
+using System.Collections.Generic;
+
+public enum HeadState
+{
+    Up, Stable, Down
+}
 
 public class HeadPlloter : MonoBehaviour
 {
+    public Queue<HeadState> stateSequence = new Queue<HeadState>();
+
     private Camera cam;
     void Start()
     {
