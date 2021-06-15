@@ -14,6 +14,14 @@ public class MenuManager : MonoBehaviour
     {
         nameField.text = Global.participantName;
     }
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Record");
+        }
+    }
+
     void OnDestroy()
     {
         saveCurrentName();

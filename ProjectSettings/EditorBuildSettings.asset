@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main/Hard.unity
     guid: 567ea12b39fab40f993f6210b507db02
+  - enabled: 1
+    path: Assets/Scenes/Familarization/Record.unity
+    guid: 413a77ca8c9f54163abcbf7fe7dfcc56
   m_configObjects: {}
