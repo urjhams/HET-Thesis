@@ -46,7 +46,7 @@ public class HeadPlloter : MonoBehaviour
             if (pitch > 180) pitch -= 360;
             var yaw = headPose.Rotation.eulerAngles.y;
             if (yaw > 180) yaw -= 360;
-            Debug.Log(pitch);
+            
             // --------------------------- adjust head plotter
             // get screen resolution
             var resolution = Screen.currentResolution;
