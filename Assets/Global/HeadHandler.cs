@@ -17,19 +17,6 @@ public class HeadHandler : MonoBehaviour
         public Single x1, y1, x2, y2, x3, y3, x4, y4;
     }
 
-    public Queue<HeadState> stateSequence = new Queue<HeadState>();
-
-    // currently we lock at 30 fps, the logest pattern array is 41 elements
-    // which we actually should just use 41 but for sure we use the limit of
-    // 2 seconds, which mean 60 frames in total.
-    private int stateSequenceLimit = 60;
-
-    [HideInInspector]
-    public bool didNod = false;
-
-    [HideInInspector]
-    public bool isObserving = false;
-
     // use `static extern` with DllImport to declare a method that is implemented externally.
     // (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern)
     // `ref` keyword is like inout in Swift 
@@ -106,10 +93,6 @@ public class HeadHandler : MonoBehaviour
 
     private HeadHandler.FreeTrackData trackData;
 
-    private float currentStablePitch = 0F;
-
-    private float estimatePitchDifference = 2.5f;
-
     void Start()
     {
         trackData = new HeadHandler.FreeTrackData();
@@ -154,164 +137,5 @@ public class HeadHandler : MonoBehaviour
         //var info = string.Format("head X: {0}, head Y: {1}", X, Y);
         // Debug.Log(info);
         // Debug.Log(string.Format("Pitch: {0}", Pitch));
-
-        HardRunner runnerInstance = GameObject
-            .Find("GameRunner")
-            .GetComponent<HardRunner>();
-
-        EasyRunner runnerEasyInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<EasyRunner>();
-
-        Familiarization runnerTrialInstance = GameObject
-            .Find("GameRunner").
-            GetComponent<Familiarization>();
-
-        if (runnerInstance != null)
-        {
-            // handle a variable for condition 3
-        }
-
-        if (runnerEasyInstance != null)
-        {
-            // handle a variable for condition 3
-        }
-
-        if (runnerTrialInstance != null)
-        {
-            runnerTrialInstance.currentPitchValue = this.Pitch * 100;
-        }
-
-        // Important: use opentrack with space shooter profile
-        transform.position = new Vector2(-RawYaw * 20, RawPitch * 20);
-        
-        // Note: find out a value to replace for 15 to work perfectly 
-        // with all size of screen
-
-        if (Global.currentState == TrialState.HeadEye && !didNod)
-        {
-            if (!isObserving)
-            {
-                // start observing
-                isObserving = true;
-                currentStablePitch = this.Pitch * 100;
-            }
-            else
-            {
-                stateSequenceObseve();
-            }
-        }
     }
-
-    private void stateSequenceObseve()
-    {
-        if (stateSequence.Count == stateSequenceLimit)
-        {
-            stateSequence.Dequeue();    // remove an element in rear side
-        }
-        switch (Pitch * 100)
-        {
-            case float value when (value <= currentStablePitch - estimatePitchDifference):
-                stateSequence.Enqueue(HeadState.Up);
-                break;
-            case float value when (value >= currentStablePitch + estimatePitchDifference):
-                stateSequence.Enqueue(HeadState.Down);
-                break;
-            default:
-                stateSequence.Enqueue(HeadState.Stable);
-                break;
-        }
-
-        var currentSequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
-        // we need to reverse ince the queue will be from right to left, not left to right
-        Array.Reverse(currentSequence);
-
-        foreach (HeadState[] pattern in templateSequences)
-        {
-            if (checkContained(currentSequence, pattern))
-            {
-                didNod = true;
-                isObserving = false;
-                break;
-            }
-        }
-    }
-
-    private bool checkContained(HeadState[] lhs, HeadState[] rhs)
-    {
-        if (lhs.Length < rhs.Length)
-        {
-            return false;
-        }
-
-        // get the diference in lenght to get max tries based on the indexes
-        int differenceLength = lhs.Length - rhs.Length;
-
-        /*
-        the maximum tries is  difirence length + 1.
-        For example lhs = rhs (diffirence length = 0) which meean we jsut need to compare 1 time from index 0 of lhs
-        If lhs has 1 element longer than rhs, then will be 2 compare(at index 0 and 1)
-        */
-        for (int index = 0; index <= differenceLength; index++)
-        {
-            // cut the lhs to size of rhs from index
-            var segment = new ArraySegment<HeadState>(lhs, index, rhs.Length).ToArray<HeadState>();
-
-            // check if this cut is equal with rhs, stop the loop and return true
-            // otherwise continue the loop
-            if (segment.SequenceEqual(rhs))
-            {
-                return true;
-            }
-        }
-
-        // return false if there is no equal is found
-        return false;
-    }
-
-    // *** these patterns's elements will be reversed at scene awake to use with the Queue.
-    public HeadState[][] templateSequences = new HeadState[][]
-    {
-        new HeadState[]
-        {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Stable,
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up,
-            HeadState.Up, HeadState.Up, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down,  HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        }
-    };
 }
