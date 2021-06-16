@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class EasyRunner : BaseRunner
 {
     public override void fillObjectsToPattern()

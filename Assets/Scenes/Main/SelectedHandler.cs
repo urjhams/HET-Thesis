@@ -169,8 +169,10 @@ public class SelectedHandler : MonoBehaviour
             runnerTrialInstance.didEyeSelect = false;
             if (Global.currentState != TrialState.Head)
             {
-                this.gameObject.GetComponent<SpriteRenderer>().sprite
-                    = runnerTrialInstance.white;
+                this
+                    .gameObject
+                    .GetComponent<SpriteRenderer>()
+                    .sprite = runnerTrialInstance.white;
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class HardRunner : BaseRunner
+﻿public class HardRunner : BaseRunner
 {
     public override void fillObjectsToPattern()
     {

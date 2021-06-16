@@ -185,7 +185,7 @@ public class BaseRunner : MonoBehaviour
             case TrialState.Order:
                 updateEyeHeadOrder();
                 break;
-            case TrialState.Trial:
+            default:
                 break;
         }
         trialDoneTimeHandle();
@@ -613,7 +613,7 @@ public class BaseRunner : MonoBehaviour
             case TrialState.Order:
                 methodName = " Multimodal 2";
                 break;
-            case TrialState.Trial:
+            default:
                 break;
         }
 
@@ -674,7 +674,7 @@ public class BaseRunner : MonoBehaviour
             case TrialState.Order:
                 _confirmTime = 0.7;
                 break;
-            case TrialState.Trial:
+            default:
                 break;
         }
         resetLockTime();

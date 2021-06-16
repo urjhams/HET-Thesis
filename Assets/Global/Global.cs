@@ -2,7 +2,7 @@
 
 public enum TrialState
 {
-    Eye, Head, HeadEye, Order, Trial
+    Eye, Head, HeadEye, Order, None
 }
 
 public enum TrialLevel
@@ -18,7 +18,7 @@ public static class Global
 {
     public static bool inDebugMode = false;
     public static string participantName = "";
-    public static TrialState currentState = TrialState.Trial;
+    public static TrialState currentState = TrialState.None;
 
     public static TrialLevel currentLevel = TrialLevel.Familization;
 
@@ -107,11 +107,7 @@ public class Helper {
                 break;
             case TrialState.Order:
                 break;
-            case TrialState.Trial:
-                GameObject
-                    .Find("headCursor")
-                    .GetComponent<Renderer>()
-                    .enabled = false;
+            default:
                 break;
         }
     }
