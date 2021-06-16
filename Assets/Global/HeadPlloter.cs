@@ -83,13 +83,13 @@ public class HeadPlloter : MonoBehaviour
             transform.position = screenPosition;
 
             // -------------------------- nod observe
-            RecordRunner runnerTrialInstance = GameObject
+            RecordRunner recordInstance = GameObject
                 .Find("GameRunner").
                 GetComponent<RecordRunner>();
 
-            if (runnerTrialInstance != null)
+            if (recordInstance != null)
             {
-                runnerTrialInstance.currentPitchValue = pitch;
+                recordInstance.currentPitchValue = pitch;
             }
 
             if (Global.currentState == TrialState.HeadEye && !didNod)
@@ -114,6 +114,7 @@ public class HeadPlloter : MonoBehaviour
         {
             stateSequence.Dequeue();    // remove an element in rear side
         }
+
         switch (pitch)
         {
             case float value when (value <= currentStablePitch - estimatePitchDifference):

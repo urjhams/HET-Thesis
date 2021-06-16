@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,6 +39,11 @@ public class Familiarization : MonoBehaviour
 
     void Start()
     {
+        // no idea why these value turned to `true` when the screen start 🤷🏻‍♂️
+        // so just set them to false at start
+        didEyeSelect = false;
+        didHeadSelect = false;
+
         Helper.prepareCursors();
         randomizePosition();
         confirmTime = _confirmTime;
@@ -66,8 +70,7 @@ public class Familiarization : MonoBehaviour
             case TrialState.Order:
                 tryEyeHeadOrder();
                 break;
-            case TrialState.Trial:
-                nodRecognition();
+            default:
                 break;
         }
     }
@@ -94,36 +97,6 @@ public class Familiarization : MonoBehaviour
             case Position.Right:
                 sampleObject.transform.position = new Vector2(4, 0);
                 break;
-        }
-    }
-
-    private void nodRecognition()
-    {
-        HeadPlloter handler = GameObject
-            .Find("headCursor")
-            .GetComponent<HeadPlloter>();
-        
-        if (Input.GetKey(KeyCode.C))
-        {
-            if (!handler.isObserving)
-            {
-                handler.isObserving = true;
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.C)) 
-        {
-            if (handler.isObserving)
-            {
-                handler.isObserving = false;
-            }
-        }
-
-        if (handler.didNod && !handler.isObserving)
-        {
-            background
-                .GetComponent<SpriteRenderer>()
-                .sprite = backgroundRecording;
         }
     }
 
@@ -161,6 +134,7 @@ public class Familiarization : MonoBehaviour
 
     private void tryHead()
     {
+        Debug.Log(didHeadSelect);
         if (this.didHeadSelect)
         {
             // head lock time counting down, but will reset 

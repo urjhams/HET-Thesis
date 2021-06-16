@@ -213,6 +213,7 @@ public class ColliderHandle : MonoBehaviour
         if (runnerTrialInstance != null)
         {
             runnerTrialInstance.didHeadSelect = false;
+            
             switch(Global.currentState)
             {
                 case TrialState.Head:
