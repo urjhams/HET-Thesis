@@ -62,17 +62,17 @@ public class RecordRunner : MonoBehaviour
 
             if (currentRecordState == RecordState.On)
             {
-                if (currentPitchValue <= currentStablePitch - estimatePitchDifference)
+                switch (currentPitchValue)
                 {
-                    tempPetchValues.Add(HeadState.Up);
-                }
-                else if (currentPitchValue >= currentStablePitch + estimatePitchDifference)
-                {
-                    tempPetchValues.Add(HeadState.Down);
-                }
-                else
-                {
-                    tempPetchValues.Add(HeadState.Stable);
+                    case float value when (value <= currentStablePitch - estimatePitchDifference):
+                        tempPetchValues.Add(HeadState.Up);
+                        break;
+                    case float value when (value >= currentStablePitch + estimatePitchDifference):
+                        tempPetchValues.Add(HeadState.Down);
+                        break;
+                    default:
+                        tempPetchValues.Add(HeadState.Stable);
+                        break;
                 }
             }
         }

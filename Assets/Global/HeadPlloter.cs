@@ -26,7 +26,7 @@ public class HeadPlloter : MonoBehaviour
 
     private float currentStablePitch = 0F;
 
-    private float estimatePitchDifference = 2.5f;
+    private float estimatePitchDifference = 3;
 
     private Camera cam;
     void Start()
@@ -98,7 +98,7 @@ public class HeadPlloter : MonoBehaviour
                 {
                     // start observing
                     isObserving = true;
-                    currentStablePitch = pitch * 100;
+                    currentStablePitch = pitch;
                 }
                 else
                 {
@@ -114,7 +114,7 @@ public class HeadPlloter : MonoBehaviour
         {
             stateSequence.Dequeue();    // remove an element in rear side
         }
-        switch (pitch * 100)
+        switch (pitch)
         {
             case float value when (value <= currentStablePitch - estimatePitchDifference):
                 stateSequence.Enqueue(HeadState.Up);
