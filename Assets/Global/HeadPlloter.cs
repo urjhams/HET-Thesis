@@ -32,13 +32,6 @@ public class HeadPlloter : MonoBehaviour
         cam = Camera.main;
     }
 
-    private float maxPitch = 0;
-    private float minPitch = 0;
-
-    private float maxYaw = 0;
-    private float minYaw = 0;
-
-    // Update is called once per frame
     void Update()
     {
         var headPose = TobiiAPI.GetHeadPose();
@@ -51,8 +44,6 @@ public class HeadPlloter : MonoBehaviour
             var yaw = headPose.Rotation.eulerAngles.y;
             if (yaw > 180) yaw -= 360;
             
-            // TODO: z is the distance from head to screen in milimeters
-            Debug.Log(headPose.Position.z.ToString());
             // --------------------------- adjust head plotter
             // get screen resolution
             var resolution = Screen.currentResolution;
@@ -66,34 +57,35 @@ public class HeadPlloter : MonoBehaviour
                 Roll:   +25 -25
             */
 
-            /*
-                However we want to reach the border of the screen by the gaze
-            */
-            // if (yaw > maxYaw) maxYaw = yaw;
-            // if (yaw < minYaw) minYaw = yaw;
-            // if (pitch > maxPitch) maxPitch = pitch;
-            // if (pitch < minPitch) minPitch = pitch;
-            // Debug.Log("max Pitch: " + maxPitch.ToString());
-            // Debug.Log("min Pitch: " + minPitch.ToString());
-            // Debug.Log("max Yaw: " + maxYaw.ToString());
-            // Debug.Log("min Yaw: " + minYaw.ToString());
-            float pitchAnglePixel = height / (45 + 1 + 45);   // include 0 degree
-            float yawAnglePixel = width / (65 + 1 + 65);      // include 0 degree
+            var distance = headPose.Position.z;
 
-            var expectedX = (yaw + 65) * yawAnglePixel;
-            if (expectedX < 0) expectedX = 0F;
-            if (expectedX > width) expectedX = width;
+            // get position in pixel with coordinate root at center
+            var headGazePlane = headGazePosition(distance, pitch, yaw);
 
-            var expectedY = (pitch + 45) * pitchAnglePixel;
-            // need to get the oposite y cuz pitch > 0 mean look down
-            expectedY = height - expectedY;
-            if (expectedY < 0) expectedY = 0F;
-            if (expectedY > height) expectedY = height;
+            // convert to screen coordinates
+            var xOnScreen = width / 2 + headGazePlane.x;
+            var yOnscreen = height / 2 + headGazePlane.y;
+            
+
+
+            // float pitchAnglePixel = height / (45 + 1 + 45);   // include 0 degree
+            // float yawAnglePixel = width / (65 + 1 + 65);      // include 0 degree
+
+            // var expectedX = (yaw + 65) * yawAnglePixel;
+            // if (expectedX < 0) expectedX = 0F;
+            // if (expectedX > width) expectedX = width;
+
+            // var expectedY = (pitch + 45) * pitchAnglePixel;
+            // // need to get the oposite y cuz pitch > 0 mean look down
+            // expectedY = height - expectedY;
+            // if (expectedY < 0) expectedY = 0F;
+            // if (expectedY > height) expectedY = height;
 
             // concert to world space position from screen coordinate
             // current pattern objects's z is 10,
             // so put this z to 10 to make sure they gonna collise
-            var position = new Vector3(expectedX, expectedY, 10);
+            // var position = new Vector3(expectedX, expectedY, 10);
+            var position = new Vector3(xOnScreen, yOnscreen, 10);
             var screenPosition = cam.ScreenToWorldPoint(position);
             //Debug.Log(screenPosition.z);
             // move the cursor
@@ -191,6 +183,40 @@ public class HeadPlloter : MonoBehaviour
         // return false if there is no equal is found
         return false;
     }
+
+    private Vector2 headGazePosition(float distance, float pitch, float yaw)
+    {
+        // get y position by yaw
+        var y = getHypotenuseEnd(distance, yaw);
+
+        // get x position by pitch
+        var x = getHypotenuseEnd(distance, pitch);
+
+        // x and y in a coordiate system where root is at center of the screen.
+        return new Vector2(x, y);
+    }
+
+    private float getHypotenuseEnd(float distance, float firstAngle)
+    {
+        float pixelInMm = 0.2646F;
+
+        // get the other Angle
+        float secondAngle = 90 - firstAngle;
+
+        // convert first angle to radian:
+        Double firstAngleRadian = (firstAngle * Math.PI) / 180;
+
+        // get hypotenuse length
+        var hypotenuseLength = Math.Sin(firstAngleRadian) * distance;
+
+        // get the end point from root
+        var lengthInMm = Math.Sqrt(Math.Pow(hypotenuseLength, 2) + Math.Pow(distance, 2));
+
+        var lengthInPixel = lengthInMm / pixelInMm;
+
+        return (float)lengthInPixel;
+    }
+
 
     // *** these patterns's elements will be reversed at scene awake to use with the Queue.
     public HeadState[][] templateSequences = new HeadState[][]
