@@ -13,10 +13,8 @@ public class HeadPlloter : MonoBehaviour
 {
     public Queue<HeadState> stateSequence = new Queue<HeadState>();
 
-    // currently we lock at 60 fps, the logest pattern array is 41 elements
-    // which we actually should just use 41 but for sure we use the limit of
-    // 1 seconds, which mean 60 frames in total.
-    private int stateSequenceLimit = 60;
+    // the highest frames in the pattern is 119, so we set the boundery to 120 frames.
+    private int stateSequenceLimit = 120;
 
     [HideInInspector]
     public bool didNod = false;
@@ -180,44 +178,91 @@ public class HeadPlloter : MonoBehaviour
     {
         new HeadState[]
         {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Stable,
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up,
-            HeadState.Up, HeadState.Up, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down,  HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down
         },
         new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
-        },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable,
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down,
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
+            HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
+            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
+            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable
         }
     };
 }
