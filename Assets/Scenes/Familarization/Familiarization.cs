@@ -134,7 +134,6 @@ public class Familiarization : MonoBehaviour
 
     private void tryHead()
     {
-        Debug.Log(didHeadSelect);
         if (this.didHeadSelect)
         {
             // head lock time counting down, but will reset 

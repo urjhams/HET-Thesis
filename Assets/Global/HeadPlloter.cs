@@ -32,6 +32,12 @@ public class HeadPlloter : MonoBehaviour
         cam = Camera.main;
     }
 
+    private float maxPitch = 0;
+    private float minPitch = 0;
+
+    private float maxYaw = 0;
+    private float minYaw = 0;
+
     // Update is called once per frame
     void Update()
     {
@@ -45,6 +51,8 @@ public class HeadPlloter : MonoBehaviour
             var yaw = headPose.Rotation.eulerAngles.y;
             if (yaw > 180) yaw -= 360;
             
+            // TODO: z is the distance from head to screen in milimeters
+            Debug.Log(headPose.Position.z.ToString());
             // --------------------------- adjust head plotter
             // get screen resolution
             var resolution = Screen.currentResolution;
@@ -58,6 +66,17 @@ public class HeadPlloter : MonoBehaviour
                 Roll:   +25 -25
             */
 
+            /*
+                However we want to reach the border of the screen by the gaze
+            */
+            // if (yaw > maxYaw) maxYaw = yaw;
+            // if (yaw < minYaw) minYaw = yaw;
+            // if (pitch > maxPitch) maxPitch = pitch;
+            // if (pitch < minPitch) minPitch = pitch;
+            // Debug.Log("max Pitch: " + maxPitch.ToString());
+            // Debug.Log("min Pitch: " + minPitch.ToString());
+            // Debug.Log("max Yaw: " + maxYaw.ToString());
+            // Debug.Log("min Yaw: " + minYaw.ToString());
             float pitchAnglePixel = height / (45 + 1 + 45);   // include 0 degree
             float yawAnglePixel = width / (65 + 1 + 65);      // include 0 degree
 
