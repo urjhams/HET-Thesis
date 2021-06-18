@@ -541,11 +541,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1645372516}
   sampleObject: {fileID: 606114560}
-  backgroundNormal: {fileID: 21300000, guid: ece7dde330d9a4a64bd427fc485e6bb1, type: 3}
   backgroundRecording: {fileID: 21300000, guid: d2574bae51bf945e89433ac748e8dcdb, type: 3}
   didEyeSelect: 0
   didHeadSelect: 1
-  currentPitchValue: 0
   white: {fileID: 21300000, guid: d49e230ca691d49b4be82954dc623c12, type: 3}
   blue: {fileID: 21300000, guid: adc6ccf7d97cc4f4d92f0c8a34783700, type: 3}
   yellow: {fileID: 21300000, guid: d45f6ea83b49a4e8f8c549f8e88238d5, type: 3}
@@ -835,10 +833,6 @@ PrefabInstance:
     - target: {fileID: 1738812848720732907, guid: 91036e66cdb6dcf428def73e58b1154d, type: 3}
       propertyPath: m_Name
       value: headCursor
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738812848720732907, guid: 91036e66cdb6dcf428def73e58b1154d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91036e66cdb6dcf428def73e58b1154d, type: 3}
