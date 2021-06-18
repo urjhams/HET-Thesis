@@ -56,40 +56,14 @@ public class HeadPlloter : MonoBehaviour
                 Yaw:    +65 -65
                 Roll:   +25 -25
             */
-
-            var distance = headPose.Position.z;
-
-            // get position in pixel with coordinate root at center
-            var headGazePlane = headGazePosition(distance, pitch, yaw);
-
-            // convert to screen coordinates
-            var xOnScreen = width / 2 + headGazePlane.x;
-            var yOnscreen = height / 2 + headGazePlane.y;
-            
-
-
-            // float pitchAnglePixel = height / (45 + 1 + 45);   // include 0 degree
-            // float yawAnglePixel = width / (65 + 1 + 65);      // include 0 degree
-
-            // var expectedX = (yaw + 65) * yawAnglePixel;
-            // if (expectedX < 0) expectedX = 0F;
-            // if (expectedX > width) expectedX = width;
-
-            // var expectedY = (pitch + 45) * pitchAnglePixel;
-            // // need to get the oposite y cuz pitch > 0 mean look down
-            // expectedY = height - expectedY;
-            // if (expectedY < 0) expectedY = 0F;
-            // if (expectedY > height) expectedY = height;
-
-            // concert to world space position from screen coordinate
-            // current pattern objects's z is 10,
-            // so put this z to 10 to make sure they gonna collise
-            // var position = new Vector3(expectedX, expectedY, 10);
-            var position = new Vector3(xOnScreen, yOnscreen, 10);
-            var screenPosition = cam.ScreenToWorldPoint(position);
-            //Debug.Log(screenPosition.z);
-            // move the cursor
-            transform.position = screenPosition;
+            var screenPosition = cam.ScreenToWorldPoint( new Vector3(0, 0, 10));
+            double pixelInMm = 0.2645833333;
+            var sensitiveFactor = 1.5;
+            var newX = yaw * pixelInMm * sensitiveFactor;
+            var newY = pitch * pixelInMm * sensitiveFactor;
+            newY = -newY;
+            var screenPosition2 = new Vector3((float)newX, (float)newY, screenPosition.z);
+            transform.position = screenPosition2;
 
             // -------------------------- nod observe
             RecordRunner recordInstance = GameObject
@@ -183,40 +157,6 @@ public class HeadPlloter : MonoBehaviour
         // return false if there is no equal is found
         return false;
     }
-
-    private Vector2 headGazePosition(float distance, float pitch, float yaw)
-    {
-        // get y position by yaw
-        var y = getHypotenuseEnd(distance, yaw);
-
-        // get x position by pitch
-        var x = getHypotenuseEnd(distance, pitch);
-
-        // x and y in a coordiate system where root is at center of the screen.
-        return new Vector2(x, y);
-    }
-
-    private float getHypotenuseEnd(float distance, float firstAngle)
-    {
-        float pixelInMm = 0.2646F;
-
-        // get the other Angle
-        float secondAngle = 90 - firstAngle;
-
-        // convert first angle to radian:
-        Double firstAngleRadian = (firstAngle * Math.PI) / 180;
-
-        // get hypotenuse length
-        var hypotenuseLength = Math.Sin(firstAngleRadian) * distance;
-
-        // get the end point from root
-        var lengthInMm = Math.Sqrt(Math.Pow(hypotenuseLength, 2) + Math.Pow(distance, 2));
-
-        var lengthInPixel = lengthInMm / pixelInMm;
-
-        return (float)lengthInPixel;
-    }
-
 
     // *** these patterns's elements will be reversed at scene awake to use with the Queue.
     public HeadState[][] templateSequences = new HeadState[][]
