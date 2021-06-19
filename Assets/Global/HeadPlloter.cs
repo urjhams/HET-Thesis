@@ -34,6 +34,8 @@ public class HeadPlloter : MonoBehaviour
     private Camera cam;
     void Start()
     {
+        didNod = false;
+        isObserving = false;
         cam = Camera.main;
     }
 

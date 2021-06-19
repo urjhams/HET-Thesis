@@ -201,8 +201,7 @@ public class BaseRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null
-            && selectedPatternSet.objects.Length > 0
+        if (hasEyeSelectObject()
             && lockTime > 0)
         {
             selectedPatternSet
@@ -346,10 +345,10 @@ public class BaseRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null
-            && selectedPatternSet.objects.Length > 0)
+        if (hasEyeSelectObject())
         {
             lockTime -= Time.deltaTime;
+            
             if (lockTime <= 0)
             {
                 selectedPatternSet
@@ -360,7 +359,7 @@ public class BaseRunner : MonoBehaviour
                     .GetComponent<SpriteRenderer>()
                     .sprite = purple;
 
-                if (!trackerInstance.isObserving)
+                if (!trackerInstance.isObserving && !trackerInstance.didNod)
                 {
                     // start observe the nod
                     trackerInstance.isObserving = true;
@@ -400,6 +399,8 @@ public class BaseRunner : MonoBehaviour
             }
             else
             {
+                trackerInstance.didNod = false;
+                trackerInstance.isObserving = false;
                 selectedPatternSet
                     .objects[0]
                     .transform
@@ -411,6 +412,8 @@ public class BaseRunner : MonoBehaviour
         }
         else
         {
+            trackerInstance.didNod = false;
+            trackerInstance.isObserving = false;
             resetLockTime();
         }
     }
@@ -423,8 +426,7 @@ public class BaseRunner : MonoBehaviour
             return;
         }
 
-        if (selectedPatternSet != null
-            && selectedPatternSet.objects.Length > 0)
+        if (hasEyeSelectObject())
         {
             if (headSelectedPatternSet != null
                 && headSelectedPatternSet == selectedPatternSet)
@@ -684,6 +686,12 @@ public class BaseRunner : MonoBehaviour
     {
         lockTime = _lockTime;
         confirmTime = _confirmTime;
+    }
+
+    private bool hasEyeSelectObject()
+    {
+        return selectedPatternSet != null
+            && selectedPatternSet.objects.Length > 0;
     }
 
     public void fillObjectsWithSprites(int length, int components = 4)
