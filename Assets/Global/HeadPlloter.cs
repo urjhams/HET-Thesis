@@ -1,7 +1,6 @@
 using Tobii.Gaming;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using System;
 
 public enum HeadState
@@ -17,8 +16,6 @@ public enum HeadStateChange
 public class HeadPlloter : MonoBehaviour
 {
     public Queue<HeadState> stateSequence = new Queue<HeadState>();
-
-    private HeadStateChange[] headChanged = new HeadStateChange[] {};
 
     // the highest frames in the pattern is 119, 
     // so we set the boundery of observation to 120 frames.
@@ -118,144 +115,91 @@ public class HeadPlloter : MonoBehaviour
                 stateSequence.Enqueue(HeadState.Stable);
                 break;
         }
-
-        var currentSequence = Array.ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
-        // we need to reverse ince the queue will be from right to left, not left to right
-        Array.Reverse(currentSequence);
-
-        foreach (HeadState[] pattern in templateSequences)
+        
+        var currentSequence = Array
+            .ConvertAll(stateSequence.ToArray(), item => (HeadState)item);
+        
+        if (foundNodIn(currentSequence))
         {
-            if (checkContained(currentSequence, pattern))
-            {
-                didNod = true;
-                isObserving = false;
-                break;
-            }
+            didNod = true;
+            isObserving = false;
         }
     }
 
-    private bool checkContained(HeadState[] lhs, HeadState[] rhs)
+    private bool foundNodIn(HeadState[] states)
     {
-        if (lhs.Length < rhs.Length)
+        var changeStates = getChangeStates(states);
+        foreach (HeadStateChange[] pattern in nodPatterns)
         {
-            return false;
-        }
-
-        // get the diference in lenght to get max tries based on the indexes
-        int differenceLength = lhs.Length - rhs.Length;
-
-        /*
-        the maximum tries is  difirence length + 1.
-        For example lhs = rhs (diffirence length = 0) which meean we jsut need to compare 1 time from index 0 of lhs
-        If lhs has 1 element longer than rhs, then will be 2 compare(at index 0 and 1)
-        */
-        for (int index = 0; index <= differenceLength; index++)
-        {
-            // cut the lhs to size of rhs from index
-            var segment = new ArraySegment<HeadState>(lhs, index, rhs.Length).ToArray<HeadState>();
-
-            // check if this cut is equal with rhs, stop the loop and return true
-            // otherwise continue the loop
-            if (segment.SequenceEqual(rhs))
+            if (Helper.checkContained(changeStates, pattern))
             {
                 return true;
             }
         }
-
-        // return false if there is no equal is found
         return false;
     }
 
-    // *** these patterns's elements will be reversed at scene awake to use with the Queue.
-    public HeadState[][] templateSequences = new HeadState[][]
+    private HeadStateChange[] getChangeStates(HeadState[] states)
     {
-        new HeadState[]
+        var headChanged = new List<HeadStateChange>();
+
+        for (int index = 1; index < states.Length; index++)
         {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable
+            var previous = states[index - 1];
+
+            switch(states[index])
+            {
+                case HeadState.Up:
+                    if (previous == HeadState.Stable)
+                    {
+                        headChanged.Add(HeadStateChange.StableToUp);
+                    }
+                    break;
+                case HeadState.Down:
+                    if (previous == HeadState.Stable)
+                    {
+                        headChanged.Add(HeadStateChange.StableToDown);
+                    }
+                    break;
+                case HeadState.Stable:
+                    switch (previous)
+                    {
+                        case HeadState.Up:
+                            headChanged.Add(HeadStateChange.UpBackStable);
+                            break;
+                        case HeadState.Down:
+                            headChanged.Add(HeadStateChange.DownBackStable);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+            }
+        }
+        return Array.ConvertAll(headChanged.ToArray(), item => (HeadStateChange)item);
+    }
+
+    private HeadStateChange[][] nodPatterns = new HeadStateChange[][]
+    {
+        new HeadStateChange[]
+        {
+
         },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable
+        new HeadStateChange[]
+        {
+
         },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down
+        new HeadStateChange[]
+        {
+
         },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down
+        new HeadStateChange[]
+        {
+
         },
-        new HeadState[] {
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, HeadState.Up, 
-            HeadState.Stable, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, 
-            HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Down, HeadState.Stable, HeadState.Stable, HeadState.Stable, 
-            HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable, HeadState.Stable
+        new HeadStateChange[]
+        {
+
         }
     };
 }

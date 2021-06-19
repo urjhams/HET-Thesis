@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Linq;
+using System;
 
 public enum TrialState
 {
@@ -79,7 +81,7 @@ class Utility
         for (int index = 0; index < array.Length; index++)
         {
             T temp = array[index];
-            int random = Random.Range(index, array.Length);
+            int random = UnityEngine.Random.Range(index, array.Length);
             array[index] = array[random];
             array[random] = temp;
         }
@@ -139,5 +141,38 @@ public class Helper {
             }
         }
         return result;
+    }
+
+    public static bool checkContained<T>(T[] lhs, T[] rhs)
+    {
+        if (lhs.Length < rhs.Length)
+        {
+            return false;
+        }
+
+        // get the diference in lenght to get max tries based on the indexes
+        int differenceLength = lhs.Length - rhs.Length;
+
+        /*
+        the maximum tries is `difirence length + 1`.
+        For example lhs = rhs (diffirence length = 0) which meean we jsut need 
+        to compare 1 time from index 0 of lhs.
+        If lhs has 1 element longer than rhs, then will be 2 compare(at index 0 and 1)
+        */
+        for (int index = 0; index <= differenceLength; index++)
+        {
+            // cut the lhs to size of rhs from index
+            var segment = new ArraySegment<T>(lhs, index, rhs.Length).ToArray<T>();
+
+            // check if this cut is equal with rhs, stop the loop and return true
+            // otherwise continue the loop
+            if (segment.SequenceEqual(rhs))
+            {
+                return true;
+            }
+        }
+
+        // return false if there is no equal is found
+        return false;
     }
 }
