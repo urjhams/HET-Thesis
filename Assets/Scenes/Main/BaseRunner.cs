@@ -134,6 +134,10 @@ public class BaseRunner : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Global.inDebugMode = !Global.inDebugMode;
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Menu & Calibration");
@@ -401,6 +405,7 @@ public class BaseRunner : MonoBehaviour
             {
                 trackerInstance.didNod = false;
                 trackerInstance.isObserving = false;
+                trackerInstance.stateSequence.Clear();
                 selectedPatternSet
                     .objects[0]
                     .transform
@@ -414,6 +419,7 @@ public class BaseRunner : MonoBehaviour
         {
             trackerInstance.didNod = false;
             trackerInstance.isObserving = false;
+            trackerInstance.stateSequence.Clear();
             resetLockTime();
         }
     }
