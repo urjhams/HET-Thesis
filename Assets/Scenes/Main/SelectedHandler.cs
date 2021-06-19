@@ -46,29 +46,6 @@ public class SelectedHandler : MonoBehaviour
                 default:
                     return;
             }
-
-            // observing handle in HeadEye case
-            if (Global.currentState == TrialState.HeadEye)
-            {
-                HeadPlloter trackerInstance = GameObject
-                    .Find("headCursor")
-                    .GetComponent<HeadPlloter>();
-
-                if (trackerInstance.isObserving)
-                {
-                    trackerInstance.isObserving = false;
-                }
-                GameObject
-                    .Find("headCursor")
-                    .GetComponent<HeadPlloter>()
-                    .isObserving = false;
-
-                GameObject
-                    .Find("headCursor")
-                    .GetComponent<HeadPlloter>()
-                    .stateSequence
-                    .Clear();
-            }
         }
     }
 
