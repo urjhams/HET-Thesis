@@ -181,25 +181,29 @@ public class HeadPlloter : MonoBehaviour
 
     private HeadStateChange[][] nodPatterns = new HeadStateChange[][]
     {
+        // stable -> down -> stable -> down
         new HeadStateChange[]
         {
-
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable,
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable
         },
+        // stable -> down -> stable -> up -> stable -> down -> stable
         new HeadStateChange[]
         {
-
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable,
+            HeadStateChange.StableToUp, HeadStateChange.UpBackStable, 
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable
         },
+        // stable -> up -> stable -> down -> stable
         new HeadStateChange[]
         {
-
+            HeadStateChange.StableToUp, HeadStateChange.UpBackStable, 
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable
         },
+        // stable -> down -> stable
         new HeadStateChange[]
         {
-
-        },
-        new HeadStateChange[]
-        {
-
+            HeadStateChange.StableToDown, HeadStateChange.DownBackStable
         }
     };
 }
