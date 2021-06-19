@@ -9,11 +9,19 @@ public enum HeadState
     Up, Stable, Down
 }
 
+public enum HeadStateChange
+{
+    StableToDown, StableToUp, DownBackStable, UpBackStable
+}
+
 public class HeadPlloter : MonoBehaviour
 {
     public Queue<HeadState> stateSequence = new Queue<HeadState>();
 
-    // the highest frames in the pattern is 119, so we set the boundery to 120 frames.
+    private HeadStateChange[] headChanged = new HeadStateChange[] {};
+
+    // the highest frames in the pattern is 119, 
+    // so we set the boundery of observation to 120 frames.
     private int stateSequenceLimit = 120;
 
     [HideInInspector]
