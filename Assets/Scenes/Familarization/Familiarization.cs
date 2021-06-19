@@ -9,8 +9,6 @@ public class Familiarization : MonoBehaviour
     {
         Up, Down, Left, Right
     }
-
-    public Text instruction;
     
     public GameObject sampleObject;
     
@@ -48,28 +46,6 @@ public class Familiarization : MonoBehaviour
         Helper.prepareCursors();
         randomizePosition();
         confirmTime = _confirmTime;
-
-        switch (Global.currentState)
-        {
-            case TrialState.Eye:
-                instruction.text = 
-                    "Staring at the object in 0,7 second to select and confirm it";
-                break;
-            case TrialState.Head:
-                instruction.text = 
-                    "Move your head to adjust the cursor, keep it on the object in 0.7 second to select and confirm it";
-                break;
-            case TrialState.HeadEye:
-                instruction.text = 
-                    "Use the eyes gaze to select, make a nod to cofirm";
-                break;
-            case TrialState.Order:
-                instruction.text = 
-                    "Use the eyes gaze to select the object first, Then move the head cursor on to it to confirm";
-                break;
-            default:
-                break;
-        }
     }
 
     void Update()
