@@ -84,8 +84,6 @@ public class HeadPlloter : MonoBehaviour
             {
                 if (!isObserving)
                 {
-                    // start observing
-                    isObserving = true;
                     currentStablePitch = pitch;
                 }
                 else

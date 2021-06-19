@@ -181,7 +181,7 @@ public class Familiarization : MonoBehaviour
                     .GetComponent<SpriteRenderer>()
                     .sprite = purple;
                 
-                if (trackerInstance.isObserving)
+                if (!trackerInstance.isObserving)
                 {
                     // start observe the nod
                     trackerInstance.isObserving = true;
